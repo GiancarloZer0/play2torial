@@ -1,5 +1,6 @@
 # Welcome to the Play2torial for Java!
 ====================================
+Commit de teste
 
 This tutorial will help teach you how to build Java web applications with Play Framework 2.
 
