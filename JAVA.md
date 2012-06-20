@@ -1,18 +1,14 @@
-# Welcome to the Play2torial for Java!
+# Bem-vindo ao Play2torial para Java!
 ====================================
-Commit de teste
+Este tutorial irá ajudá-lo e ensiná-lo a construir uma aplicação web em Java com o Play Framework 2.
 
-This tutorial will help teach you how to build Java web applications with Play Framework 2.
+Antes de começar você precisará instalar o [git](http://git-scm.com/) e o [Play 2](http://www.playframework.org/documentation/2.0.1/Installing).
 
-Before you get started you will need to install [git](http://git-scm.com/) and [Play 2](http://www.playframework.org/documentation/2.0.1/Installing).
-
-
-Test that the `play` command works by running:
+Teste o funcionamento do comando `play` executando:
 
     play help
 
-
-You should see something like:
+Você deverá ver algo semelhante a:
 
            _            _ 
      _ __ | | __ _ _  _| |
@@ -25,51 +21,54 @@ You should see something like:
     Welcome to Play 2.0!
 
 
-Alright!  You are ready to go!
+
+Beleza! Você está pronto pra começar!
 
 
 
-Create a Play App
------------------
+Criar uma aplicação Play
+------------------------
 
-Create a new Play 2 application named "play2torial" by running:
+
+Clie uma nova aplicação Play 2 chamada "play2tutorial" executando:
 
     play new play2torial
 
-When prompted select option 2 to create a Java application.
+Quando solicitado selecione a opção 2 para criar uma aplicação Java.
 
 
-In the newly created `play2torial` directory create a new git repository by running:
+
+No diretório da aplicação `play2torial` recém-criada crie um novo repositório git executando:
 
     git init
 
 
-Add the files to the git repo and commit them:
+Adicione os arquivos ao repositório git e sincronize-os (dê commit):
 
     git add .
     git commit -m init
 
 
-Throughout this tutorial you will be able to check your progress against the official tutorial.  To do this add the official tutorial as a new git remote named `upstream` by running:
+Ao longo deste tutorial você poderá acompanhar seu progresso comparando com o tutorial oficial. Para fazer isso adicione o tutorial oficial como um novo git remote chamado `upstream` executando:
 
     git remote add upstream git://github.com/jamesward/play2torial.git
 
 
-Fetch the remote repository:
+Busque (dê fetch) o repositório remoto:
 
     git fetch upstream
 
 
-Now validate that your local project is correct by running:
+Agora valide seu projeto local como correto executando:
 
     git diff upstream/java-new_project
 
-Note: The `application.secret` config value will be different and that is fine.  Also sometimes git will tell you something is different even though it looks the same.  This will likely be due to differences in indentation and newlines.  You can ignore these differences.
+Nota: O valor de configuração `application.secret` irá mudar, o que é normal. Além disso, às vezes o git vai avisar que algo está diferente, mesmo que não esteja. Isso ocorrerá provavelmente devido a diferenças na identação e criação de novas linhas. Você pode ignorar essas diferenças.
 
 
 
-Set up an IDE
--------------
+Configure uma IDE
+-----------------
 
 Before we take a tour of the app you can optionally generate project files for IntelliJ or Eclipse.
 
