@@ -30,7 +30,7 @@ Criar uma aplicação Play
 ------------------------
 
 
-Clie uma nova aplicação Play 2 chamada "play2tutorial" executando:
+Crie uma nova aplicação Play 2 chamada "play2tutorial" executando:
 
     play new play2torial
 
@@ -67,22 +67,22 @@ Nota: O valor de configuração `application.secret` irá mudar, o que é normal
 
 
 
-Configure uma IDE
+Configurar uma IDE
 -----------------
 
-Before we take a tour of the app you can optionally generate project files for IntelliJ or Eclipse.
+Antes de iniciarmos um tour pelo app você pode, opcionalmente, gerar arquivos de projeto para IntelliJ ou Eclipse.
 
-For IntelliJ run:
+Para IntelliJ execute:
 
     play idea
 
-Then create a new Java project from scratch in IntelliJ that uses this directory as the root.  Don't create a module with the new project.  Instead, once the project is created, import the generated play2torial.iml file as an existing module.
+Então, crie um novo projeto Java do zero no IntelliJ que use esse diretório como raqiz. Não crie um módulo com o novo projeto. Ao invés disso, assim que criar o projeto, importe o arquivo play2torial.iml gerado como um módulo existente.
 
-For Eclipse run:
+Para Eclipse execute:
 
     play eclipsify
 
-If you do a `git status` then you will see some uncommitted files.  Those shouldn't go into the git repo so add the following lines to the `.gitignore` file:
+Se você der um `git status`, verá que alguns arquivos não foram marcados para commit. Eles não deveriam estar no repositório git, então adicione ao arquivo `.gitignore` as seguintes linhas:
 
     /.idea
     /*.iml
@@ -90,56 +90,55 @@ If you do a `git status` then you will see some uncommitted files.  Those should
     /.project
     /.classpath
 
-Then commit the change:
+
+Depois, dê commit na mudança:
 
     git commit -am "ignore IDE files"
 
 
+Inicializar o servidor Play
+--------------------------
 
-Start the Play Server
----------------------
-
-Now start the Play app by running:
+Agora inicie a aplicação Play executando:
 
     play ~run
 
-Open the following URL in your browser to verify the app is working:  
+Abra a seguinte URL em seu navegador para verificar se a aplicação está funcionando:
 [http://localhost:9000/](http://localhost:9000/)
 
 
+Rotas
+-----
 
-Routes
-------
-
-Play routes HTTP requests to a controller using the routes defined in the `conf/routes` file.  The routes file maps HTTP verbs and URL patterns to controller methods.  The route that matched the request you just made was defined in the "routes" file with:
+Play roteia requisições HTTP para o Controller usando as rotas definidas no arquivo `conf/routes`. O arquivo de rotas mapeia verbos HTTP e padrões de URL para os métodos do Controller. A rota que coincide à requisição que você acabou de fazer foi definida no arquivo "routes" com:
 
     GET     /                           controllers.Application.index()
 
+Isso significa que quando uma requisição HTTP GET para a URL `/` é feita, ela será roteada para o método chamado `index` na classe `controllers.Application`.
 
-That means that when a HTTP GET request for the URL `/` comes in, it will be routed to the method named `index` on the `controllers.Application` class.
 
-Add a new route to handle GET requests to `/foo` with a call to `controllers.Application.index()` by adding the following line to the `conf/routes` file:
+
+Adicione uma nova rota para enviar requisições GET para `/foo` com uma chamada para `controllers.Application.index()` adicionando a seguinte linha no arquivo `conf/routes`:
 
     GET     /foo                        controllers.Application.index()
 
 
-Now try to open the following URL in your browser:  
+Agora tente abrir a seguinte URL em seu navegador: 
 [http://localhost:9000/foo](http://localhost:9000/foo)
 
+Você deverá ver a mesma mensagem de boas vindas que viu quando fez a requisição à URL `/`.
 
-You should see the same welcome message as your did when you made the request to the `/` URL.
+Dê commit e verifique suas mudanças:
 
-Commit and verify your changes:
-
-    git commit -am "added new route"
+    git commit -am "adicionada nova rota"
     git diff upstream/java-foo_route
 
 
+Testar uma Rota
+---------------
 
-Test a Route
-------------
 
-Now that you have a new route for `/foo` lets create a test for that route.  Now create a new file `test/FooTest.java` file containing:
+Agora que você tem uma nova rota para `/foo`, vamos criar um teste para essa rota. Crie um arquivo `test/FooTest.java` contendo:
 
     import org.junit.Test;
     import play.mvc.Result;
@@ -157,13 +156,11 @@ Now that you have a new route for `/foo` lets create a test for that route.  Now
     
     }
 
-
-That simple test will simulate a call to `/foo` and validate that the result was not null.  Run the test (you can keep the Play server running in another window):
+Este simples teste vai simular uma chamada para `/foo` e validar o resultado como não-nulo. Execute o teste (você pode deixar o servidor Play rodando em outra janela):
 
     play test
 
-
-You should see something like:
+Você deverá ver o seguinte:
 
     [info] FooTest
     [info] + FooTest.testFooRoute
@@ -175,40 +172,40 @@ You should see something like:
     [info] Passed: : Total 1, Failed 0, Errors 0, Passed 1, Skipped 0
 
 
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
     git add test
-    git commit -m "added test for foo route"
+    git commit -m "adicionado um teste para a rota foo"
     git diff upstream/java-test_route
 
 
 
-Update a Controller
--------------------
+Atualizar um Controller
+-----------------------
 
-The `app` directory is the main source for a Play app.  In that directory there is a directory named `controllers` containing a file named `Application.java` which is the `controllers.Application` class.
+O diretório `app` é a fonte principal de uma aplicação Play. Neste diretório há um diretório chamado `controllers` contendo um arquivo chamado `Application.java`, que por sua vez contém a classe `controllers.Application`.
 
-The `index()` method body looks like:
+O código do corpo do método `index()` é semelhante a este:
 
     return ok(index.render("Your new application is ready."));
 
-Edit the `Application.java` file and change the `Your new application is ready.` string to `hello, world`.  Save the file and then reload the following URL in your browser:  
+Edite o arquivo `Application.java` e mude a string `Sua nova aplicação está pronta.` para `Olá, mundo!`. Salve o arquivo e recarregue a seguinte URL em seu navegador:
 [http://localhost:9000/](http://localhost:9000/)
 
+Notice que agora o cabeçalho no topo da página exibe a mensagem `Olá, mundo!`. O Play recompilou o controller Java em segundo plano. Se você tivesse feito alguma mudança que não pudesse ser compilada, veria um erro de compilação exibido no seu navegador e em seu console.
 
-Notice that the header at the top of the page now reads `hello, world`.  Play recompiled the Java controller behind the scenes.  If you had made a change that could not be compiled you would see the compile error in your browser and in your console.
+Dê commit e verifique as mudanças:
 
-Commit and verify that your changes:
-
-    git commit -am "updated controller"
+    git commit -am "controller atualizado"
     git diff upstream/java-hello_controller
 
 
 
-Test a Controller
------------------
+Testar um Controller
+--------------------
 
-You can do functional tests against a controller by simply creating a new JUnit Test.  Create a new file named `test/ApplicationTest.java` file containing:
+
+Você pode fazer testes funcionais em um controller simplesmente criando um novo teste JUnit. Crie um novo arquivo chamado `test/ApplicationTest.java` contendo:
 
     import org.junit.Test;
     import play.mvc.Result;
@@ -230,12 +227,11 @@ You can do functional tests against a controller by simply creating a new JUnit 
     
     }
 
-This simulates a request to the `Application.index()` controller method and verifies that the response is what we expect.  Run the test:
+Isto simula uma requisição ao método `Application.index()` do controller e verifica se foi obtida a resposta esperada. Execute o teste:
 
     play test
 
-
-You should see something like:
+Você deverá ver algo semelhante a:
 
     [info] FooTest
     [info] + FooTest.testFooRoute
@@ -254,7 +250,7 @@ You should see something like:
     [info] Passed: : Total 2, Failed 0, Errors 0, Passed 2, Skipped 0
 
 
-Commit and verify that your changes:
+Dê commit e verifique as mudanças:
 
     git add test/ApplicationTest.java
     git commit -am "added Application controller test"
@@ -262,53 +258,54 @@ Commit and verify that your changes:
 
 
 
-Update a View
--------------
+Atualize uma View
+-----------------
 
-Play uses Scala for server-side templating.  The `Application` controller renders the `views.html.index` template which is compiled from the `app/views/index.scala.html` file.  The `index` template takes a String parameter:
+
+
+Play usa Scala para criar modelos do lado do servidor (server-side). O controller `Application` renderiza o template `views.html.index`, que é compilado do arquivo `app/views/index.scala.html`. O template `index` obtém um parâmetro String:
 
     @(message: String)
 
 
-Then the `index` template uses the `main` template (from `app/views/main.scala.html`) to get a base HTML page:
+Então o template `index` usa o template `main` (from `app/views/main.scala.html`) para obter uma página HTML básica:
 
-    @main("Welcome to Play 2.0") {
+    @main("Bem-vindo ao Play 2.0") {
 
-
-The main template is passed a String parameter for the page title and a Html parameter for the body of the page.  The body of the page is the Play welcome message which comes from:
+O template principal passou um parâmetro String para o título da página e um parâmetro Html para o corpo da página. O corpo da página é a mensagem de boas vindas do Play, que vem de:
 
     @play20.welcome(message, style = "Java")
 
 
-Change the Play welcome message to uppercase:
+Mude a mensagem de boas vondas do Play para maiúsculas:
 
     @play20.welcome(message.toUpperCase, style = "Java")
 
-View your changes in the browser:  
+Veja as mudanças no navegador:
 [http://localhost:9000/](http://localhost:9000/)
 
 
-Because the `test/ApplicationTest.java` test uses this updated template, update the test to account for the upper cased string:
+Devido ao teste `test/ApplicationTest.java` usar esse template atualizado, atualize o teste para que ele verifique a string em caixa alta:
 
     assertThat(contentAsString(result)).contains("HELLO, WORLD");
 
 
-Run the tests:
+Execute o teste:
 
     play test
 
 
-Commit and verify that your changes:
+Dê commit e verifique as mudanças:
 
-    git commit -am "change the view"
+    git commit -am "mudança na view"
     git diff upstream/java-hello_view
 
 
 
-Test a View
------------
+Testar uma View
+---------------
 
-To test a template directly, create a new `test/IndexTest.java` file containing:
+Para testar um template diretamente, crie um novo arquivo `test/IndexTest.java` contendo:
 
     import org.junit.Test;
     import play.mvc.Content;
@@ -327,11 +324,11 @@ To test a template directly, create a new `test/IndexTest.java` file containing:
     
     }
 
-Run the tests:
+Execute o teste:
 
     play test
 
-You should see something like:
+Você deverá ver algo semelhante a:
 
     [info] FooTest
     [info] + FooTest.testFooRoute
@@ -356,76 +353,77 @@ You should see something like:
     [info] 1 tests, 0 failures, 0 errors
     [info] Passed: : Total 3, Failed 0, Errors 0, Passed 3, Skipped 0
 
-Verify that your changes:
+Verifique as mudanças:
 
     git add test/IndexTest.java
-    git commit -m "add index view test"
+    git commit -m "adicionado teste index view"
     git diff upstream/java-test_view
 
 
 
-Deploy your app on the Cloud with Heroku
-----------------------------------------
+Implantar sua aplicação na Nuvem com Heroku
+-------------------------------------------
 
-Deploying your Play app on the cloud is easy with Heroku!  First create a new file in the root directory named `Procfile` that contains:
+Implantar sua aplicação Play na nuvem usando Heroku é fácil! Primeiro, crie um novo arquivo no diretório raiz chamado `Procfile` que contenha:
 
     web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS}
 
-That tells Heroku how to start the Play application.
+Isso indicará ao Heroku como iniciar a aplicação Play.
 
 
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
     git add Procfile
-    git commit -m "add Procfile for Heroku"
+    git commit -m "adicionado Procfile ao Heroku"
     git diff upstream/java-heroku_create
 
 
-Now install the Heroku Toolbelt:  
+Agora instale o Heroku Toolbelt:  
 [http://toolbelt.heroku.com](http://toolbelt.heroku.com)
 
 
-Signup for a Heroku account:  
+Crie uma conta no Heroku:  
 [http://heroku.com/signup](http://heroku.com/signup)
 
 
-Login to Heroku from the command line:
+Conecte-se à sua conta do Heroku através da linha de comando:
 
     heroku login
 
 
-Provision a new application on Heroku:
+Forneça uma nova aplicação no Heroku:
 
     heroku create --stack cedar
 
 
-Now push this applicaiton to Heroku:
+Agora dê push e envie a aplicação ao Heroku:
 
     git push heroku master
 
-Heroku will build the app with SBT and then run it on a [dyno](https://devcenter.heroku.com/articles/dynos).
+O Heroku construirá a aplicação com SBT e o executará em um [dyno](https://devcenter.heroku.com/articles/dynos).
 
 
-Open the application, now running on the cloud, in your browser:
+Abra a aplicação, agora hospedada na nuvem, em seu navegador:
 
     heroku open
 
 
 
-Create a Model
+Criar um Model
 --------------
 
-Play 2 with Java uses [Ebean](http://www.avaje.org/) for RDBMS persistence.  To setup a data source edit the `conf/application.conf` file and uncomment these lines:
+Play 2 com Java usa [Ebean](http://www.avaje.org/) para persistência RDBMS. Para configurar uma fonte de dados edite o arquivo `conf/application.conf`, descomentando as seguintes linhas:
 
     db.default.driver=org.h2.Driver
     db.default.url="jdbc:h2:mem:play"
     
     ebean.default="models.*"
 
+	
+Isto usará uma base de dados alocada em memória para uma fonte de dados chamada "default".
 
-This will use an in-memory database for a data source named "default".
 
-Create a new Java class to hold `Task` objects in a package named `models` by creating a new `app/models/Task.java` file containing:
+Crie uma nova classe Java para armazenar objetos `Task` em um pacote chamdo `models`, criando um novo arquivo `app/models/Task.java` que contenha:
 
     package models;
     
@@ -445,7 +443,7 @@ Create a new Java class to hold `Task` objects in a package named `models` by cr
     }
 
 
-Create a test for your model by creating a new `test/TaskTest.java` file containing:
+Crie um teste para o seu modelo criado um novo arquivo `test/TaskTest.java` contendo:
 
     import org.junit.Test;
     
@@ -463,7 +461,7 @@ Create a test for your model by creating a new `test/TaskTest.java` file contain
             running(fakeApplication(), new Runnable() {
                 public void run() {
                     Task task = new Task();
-                    task.contents = "Write a test";
+                    task.contents = "Escreve um teste";
                     task.save();
                     assertThat(task.id).isNotNull();
                 }
@@ -473,18 +471,18 @@ Create a test for your model by creating a new `test/TaskTest.java` file contain
     }
 
 
-Run the tests and make sure all four pass:
+Execute o teste:
 
     play test
 
+	
+Ebean criará automaticamente um novo script de evolução de base de dados para você em um arquivo chamado `conf/evolutions/default/1.sql`.
 
-Ebean will automatically create a new database evolution script for you in a file named `conf/evolutions/default/1.sql`.
 
-
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
     git add conf/evolutions app/models/Task.java test/TaskTest.java
-    git commit -am "added Task model, in-memory database config, and test"
+    git commit -am "Adicionado um model Task, configuração de banco de dados e teste."
     git diff upstream/java-task_model
 
 
@@ -789,3 +787,4 @@ Congratulations!
 ----------------
 
 You've built a Play 2 app and deployed it on the cloud.  You've learned how to get started with Play 2, Ebean, CoffeeScript, Twitter Bootstrap, jQuery, RESTful JSON services, and Heroku.  Have fun as you continue to learn Play 2!
+
