@@ -497,7 +497,7 @@ Start by adding a new method to the `app/controllers/Application.java` file that
     import play.data.Form;
 
 
-Now add a new method named `addTask`:
+Agora adicione um método chamado `addTask`:
 
         public static Result addTask() {
             Form<Task> form = form(Task.class).bindFromRequest();
@@ -507,12 +507,13 @@ Now add a new method named `addTask`:
         }
 
 
-Now add a new route to the `conf/routes` file that will handle `POST` requests to `/task` and handle the request with the `Application.addTask()` method:
+Agora adicione uma nova rota no arquivo `conf/routes` que gerencie requisições `POST` para `/task` e gerencie as requisições com o método `Application.addTask()`:
 
     POST    /task                       controllers.Application.addTask()
 
 
-Now create a form in the `app/views/index.scala.html` template for adding new `Tasks`.  Replace the `@play20.welcome` line with:
+	
+Agora crie um formulário no template `app/views/index.scala.html` para adicionar novas `Tasks`. Substitua a linha `@play20.welcome` por:
 
         @message.toUpperCase
       
@@ -522,7 +523,8 @@ Now create a form in the `app/views/index.scala.html` template for adding new `T
         }
 
 
-Test out the new UI by loading the app in your browser:  
+		
+Teste a nova UI carregando a aplicação no navegador: 
 [http://localhost:9000/](http://localhost:9000/)
 
 You will be prompted to run the database evolutions.  Just click the `Apply this script now!` button.
