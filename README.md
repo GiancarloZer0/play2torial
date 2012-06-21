@@ -1,4 +1,4 @@
-Welcome to Play2torial!
-=======================
+Bem-vindo ao Play2torial!
+========================
 
-[Learn how to use Play 2 with Java](https://github.com/jamesward/play2torial/blob/master/JAVA.md)
+[Aprenda a usar Play 2 com Java](https://github.com/jamesward/play2torial/blob/master/JAVA.md)

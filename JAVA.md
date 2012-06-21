@@ -487,9 +487,10 @@ Dê commit e verifique as mudanças:
 
 
 
-Create UI for Adding Tasks
---------------------------
+Criar Interface de Usuário para adicionar tarefas
+-------------------------------------------------
 
+Comece adicionando um novo método ao arquivo `app/controllers/Application.java`
 Start by adding a new method to the `app/controllers/Application.java` file that will map request parameters to a `Task` object, save it, and then redirect to the `index()` page.  First add these imports:
 
     import models.Task;
