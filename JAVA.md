@@ -487,8 +487,8 @@ Dê commit e verifique as mudanças:
 
 
 
-Criar Interface de Usuário para adicionar tarefas
--------------------------------------------------
+Criar Interface de Usuário (UI) para adicionar tarefas
+------------------------------------------------------
 
 Comece adicionando um novo método ao arquivo `app/controllers/Application.java`
 Start by adding a new method to the `app/controllers/Application.java` file that will map request parameters to a `Task` object, save it, and then redirect to the `index()` page.  First add these imports:
@@ -527,28 +527,27 @@ Agora crie um formulário no template `app/views/index.scala.html` para adiciona
 Teste a nova UI carregando a aplicação no navegador: 
 [http://localhost:9000/](http://localhost:9000/)
 
-You will be prompted to run the database evolutions.  Just click the `Apply this script now!` button.
+Você terá que executar as evoluções de banco de dados. Apenas clique no botão `Apply this script now!`.
 
+Adicione uma nova `Task` e o navegador deverá atualizar a página index.
 
-Add a new `Task` and the browser should refresh the index page.
+Dê commit e verifique as mudanças:
 
-Commit and verify your changes:
-
-    git commit -am "add new UI to create Tasks"
+    git commit -am "Adicionada nova UI para criar Tasks"
     git diff upstream/java-task_add
 
 
 
-Get Tasks as JSON
------------------
+Obter Tasks como JSON
+---------------------
 
-Create a new `getTasks` controller method in the `app/controllers/Application.java` file.  First add the imports:
+Crie um novo método de controller `getTasks` no arquivo `app/controllers/Application.java`. Primeiro adicione os imports:
 
     import play.db.ebean.Model;
     import java.util.List;
     import static play.libs.Json.toJson;
 
-Then add the new `getTasks` method:
+Então adicione os novos métodos `getTasks`:
 
         public static Result getTasks() {
             List<Task> tasks = new Model.Finder(String.class, Task.class).all();
@@ -556,53 +555,54 @@ Then add the new `getTasks` method:
         }
 
 
-Add a new route to the `conf/routes` file to get the tasks as JSON serialized data:
+
+Adicione uma nova rota no arquivo `conf/routes` para obter as tasks como dados JSON serializados:
 
     GET     /tasks                      controllers.Application.getTasks()
 
 
-After adding a new `Task` load the following URL in your browser:  
+Após adicionar uma nova `Task`, abra a seguinte URL em seu navegador:
 [http://localhost:9000/tasks](http://localhost:9000/tasks)
 
 
-Verify that you see a Task (or Tasks) in JSON form.
+Verifique se há uma ou mais Tasks no formulário JSON.
 
+Dê commit e verifique as mudanças:
 
-Commit and verify your changes:
-
-    git commit -am "get the tasks as JSON"
+    git commit -am "Obter as tasks como JSON"
     git diff upstream/java-task_json
 
 
 
-Display the Tasks via CoffeeScript and jQuery
----------------------------------------------
+Exibir as Tasks via CoffeeScript e JQuery
+-----------------------------------------
 
-In the body of the `app/views/index.scala.html` file add a place to display the tasks about the form:
+No corpo do arquivo `app/views/index.scala.html`, adicione um local para exibir as tasks no formulário:
 
     <ul id="tasks"></ul>
 
 
-Create a new file named `app/assets/javascripts/index.coffee` (and create the necessary directories) containing a simple CoffeeScript application that uses jQuery to load and display the tasks:
+Crie um novo arquivo chamado `app/assets/javascripts/index.coffee` (e crie os diretórios necessários) contendo uma simples aplicação CoffeeScript que use JQuery para localizar e exibir as tasks:
 
     $ ->
       $.get "/tasks", (data) ->
         $.each data, (index, task) ->
           $("#tasks").append $("<li>").text task.contents
 
-This makes a `get` request to `/tasks` for the JSON serialized list of `Task` objects and then adds a new list item to the page element with the id of `tasks` for each `Task`.
+Isso fará uma requisição `get` para `/tasks` para a lista serializada JSON de objetos `Task` e então adicionará um novo item de lista ao elemento da página com a id de `tasks` para cada `Task`.
 
 
-Update the `app/views/main.scala.html` file to include the compiled and minified version of the `index.coffee` JavaScript by adding the following after the line that includes jQuery:
+
+Atualize o arquivo `app/views/main.scala.html` para incluir a versão compilada e reduzida de JavaScript `index.coffee` adicionando o seguinte, após a linha que inclui o jQuery:
 
     <script src="@routes.Assets.at("javascripts/index.min.js")" type="text/javascript"></script>
 
 
-Check out the app in your browser and verify that the list of tasks is displayed:  
+Rode a aplicação no navegador e verifique se a lista de tasks é mostrada:
 [http://localhost:9000/](http://localhost:9000/)
 
 
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
     git add app/views/index.scala.html app/assets/javascripts/index.coffee app/views/main.scala.html
     git commit -am "Display the list of tasks using jQuery and CoffeeScript"
@@ -610,10 +610,10 @@ Commit and verify your changes:
 
 
 
-Make the App Pretty with Twitter Bootstrap
-------------------------------------------
+Deixe a aplicação mais bonita com o Twitter Bootstrap
+-----------------------------------------------------
 
-[Twitter Bootstrap](http://twitter.github.com/bootstrap) is a CSS library that makes it easy to make a web app look better.  To use Twitter Bootstrap start by adding the [WebJar](http://webjar.github.com) dependency and repository resolver to the `project/Build.scala` file:
+[Twitter Bootstrap](http://twitter.github.com/bootstrap) é uma biblioteca CSS que facilita a criação de um visual mais bonito para a aplicação web. Para usar o Twitter Bootstrap começe adicionando a dependência [WebJar](http://webjar.github.com) no arquivo `project/Build.scala`:
 
           val appDependencies = Seq(
             "com.github.twitter" % "bootstrap" % "2.0.2"
@@ -624,19 +624,20 @@ Make the App Pretty with Twitter Bootstrap
           )
 
 
-Now restart the Play server so that it will fetch the new dependency.  To use Bootstrap simply include the following line in the `app/views/main.scala.html` file, making sure it is between the `<title>` and the `main.css` lines:
+Agora reinicie o servidor do Play para que ele reconheça a nova dependência. Para usar o Twitter Bootstrap simplesmente adicione a seguinte linha no arquivo `app/views/main.scala.html`, certificando-se de que a linha esteja entre a linha da tag `<title>` e a linha `main.css`:
 
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
 
 
-Add the following to the `public/stylesheets/main.css` file in order to move the main content down to a viewable location:
+Adicione o seguinte código ao arquivo `public/stylesheets/main.css` para mover o conteúdo principal para uma localização fácil de visualizar:
 
     body {
         margin-top: 50px;
     }
 
 
-Create a new template component that will be used to create new Bootstrap-friendly form fields by creating a new file named `app/views/twitterBootstrapInput.scala.html` containing:
+
+Crie um novo componente de template que será usado para criar um novo campo de formulário do Bootstrap criando um novo arquivo chamado `app/views/twitterBootstrapInput.scala.html` contendo:
 
     @(elements: helper.FieldElements)
     
@@ -649,12 +650,12 @@ Create a new template component that will be used to create new Bootstrap-friend
     </div>
 
 
-Update the `app/views/index.scala.html` file to use Bootstrap for a nice header, better layout, and nicer default fonts:
+Atualize o arquivo `app/views/index.scala.html` para usar o cabeçalho, layout e fontes mais amigáveis do Bootstrap:
 
     @(message: String, taskForm: Form[Task])
     @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
     
-    @main("Welcome to Play 2.0") {
+    @main("Bem-vindo ao Play 2.0") {
     
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
@@ -678,54 +679,56 @@ Update the `app/views/index.scala.html` file to use Bootstrap for a nice header,
     }
 
 
-The template now takes a second parameter that is a `Form[Task]` and must be passed to the template.  This will be used for helping with form validation.  Update the `index()` method in the `app/controllers/Application.java` file to pass the new required parameter:
+O template agora obterá um segundo parâmetro que é um `Form[Task]` e deve ser passado ao template. Isso será útil para a validação do formulário. Atualize o método `index()` no arquivo `app/controllers/Application.java` para passar o novo parâmetro requerido:
 
       public static Result index() {
           return ok(index.render("hello, world", form(Task.class)));
       }
 
 
-Update the `test/IndexTest.java` file to pass the form to the template.  First add the import:
+
+Atualize o arquivo `test/IndexTest.java` para passar o formulário para o template. Primeiro adicione os imports:
 
     import play.data.Form;
     import models.Task;
 
-Update the first line of the `indexTemplate` test method:
+
+Atualize a primeira linha do método de teste `indexTemplate`:
 
           Content html = views.html.index.render("test", new Form(Task.class));
 
 
-Run the tests to make sure they still pass:
+Execute o teste para ter certeza de que está funcionando:
 
     play test
 
 
-Load the app in your browser and verify it still works:  
+Abra a aplicação em seu navegador e verifique se ainda funciona:
 [http://localhost:9000/](http://localhost:9000/)
 
 
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
     git add app/views/twitterBootstrapInput.scala.html
-    git commit -am "Add Bootstrap"
+    git commit -am "Adicionado o Bootstrap"
     git diff upstream/java-bootstrap
 
 
 
-Add Form Validation
--------------------
+Adicione a validação do formulário
+----------------------------------
 
-Add a simple `Required` constraint to the `app/models/Task.java` class.  First, add the import:
+Adicione um simples `Required` constraint à classe `app/models/Task.java`. Primeiro adicione o import:
 
     import play.data.validation.Constraints;
 
-Add the `@Constraints.Required` annotation to the `contents` field:
+Adicione a anotação `@Constraints.Required` ao campo `contents`:
 
         @Constraints.Required
         public String contents;
 
 
-Update the `addTask` method on the `app/controllers/Application.java` controller to check for form errors and if it sees any then render the form instead of trying to save the Task:
+Atualize o método `addTask` ao controller `app/controllers/Application.java` para verificar erros no formulário e para confirmar se o formulário está sendo renderizado ao invés de a aplicação tentar salvar a Task:
 
         public static Result addTask() {
             Form<Task> form = form(Task.class).bindFromRequest();
@@ -740,23 +743,23 @@ Update the `addTask` method on the `app/controllers/Application.java` controller
         }
 
 
-Load the app in your browser verify that adding an empty Task displays an error:  
+Abra a aplicação em seu navegador e verifique se a adição de uma Task vazia causa algum erro:
 [http://localhost:9000/](http://localhost:9000/)
 
 
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
     git commit -am "Add validation"
     git diff upstream/java-validation
 
 
 
-Update the App on Heroku
-------------------------
+Atualize a aplicação no Heroku
+------------------------------
 
-Heroku provides each application with a small, free PostgreSQL database.  To switch the application to use that database only when it's running on Heroku, two small changes need to be made.
+Heroky fornece um pequeno banco de dados PosgreSQL gratuito para cada aplicação. Para ajustar a aplicação para o uso desse banco de dados somente quando ele estiver funcionando no Heroku, duas pequenas mudanças precisam ser feitas:
 
-First, add the PostgreSQL database driver as a dependency of the application by `project/Build.scala` file with the following:
+Primeiro, adicione o driver do banco de dados PostgreSQL como dependência da aplicação no arquivo `project/Build.scala` adicionando o seguinte código:
 
           val appDependencies = Seq(
             "com.github.twitter" % "bootstrap" % "2.0.2",
@@ -764,30 +767,29 @@ First, add the PostgreSQL database driver as a dependency of the application by 
           )
 
 
-Then update the `Procfile` to override the default database settings when Heroku runs the app:
+Então atualize o `Procfile` para substituir os ajustes padrão de banco de dados quando o Heroku executar a aplicação:
 
     web: target/start -Dhttp.port=${PORT} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=$DATABASE_URL ${JAVA_OPTS}
 
 
-Commit and verify your changes:
+Dê commit e verifique as mudanças:
 
-    git commit -am "Updates for PostgreSQL on Heroku"
+    git commit -am "Atualizações para PostgreSQL no Heroku"
     git diff upstream/java-heroku_update
 
 
-Push your updates to Heroku:
+Sincronize (dê push) suas atualizações no Heroku:
 
     git push heroku master
 
 
-View your app on the cloud:
+Veja sua aplicação na nuvem:
 
     heroku open
 
 
 
-Congratulations!
-----------------
+Meus Parabéns!
+--------------
 
-You've built a Play 2 app and deployed it on the cloud.  You've learned how to get started with Play 2, Ebean, CoffeeScript, Twitter Bootstrap, jQuery, RESTful JSON services, and Heroku.  Have fun as you continue to learn Play 2!
-
+Você construiu uma aplicação em Play 2 e a instalou em ambiente de produção na nuvem. Você aprendeu o básico de como utilizar Play 2, Ebean, CoffeeScript, Twitter Bootstrap, jQuery, serviços JSON RESTful e Heroku. Divirta-se e continue estudando e aprendendo Play 2!
