@@ -76,7 +76,7 @@ Para IntelliJ execute:
 
     play idea
 
-Então, crie um novo projeto Java do zero no IntelliJ que use esse diretório como raqiz. Não crie um módulo com o novo projeto. Ao invés disso, assim que criar o projeto, importe o arquivo play2torial.iml gerado como um módulo existente.
+Então, crie um novo projeto Java do zero no IntelliJ que use esse diretório como raiz. Não crie um módulo com o novo projeto. Ao invés disso, assim que criar o projeto, importe o arquivo play2torial.iml gerado como um módulo existente.
 
 Para Eclipse execute:
 
@@ -110,7 +110,7 @@ Abra a seguinte URL em seu navegador para verificar se a aplicação está funci
 Rotas
 -----
 
-Play roteia requisições HTTP para o Controller usando as rotas definidas no arquivo `conf/routes`. O arquivo de rotas mapeia verbos HTTP e padrões de URL para os métodos do Controller. A rota que coincide à requisição que você acabou de fazer foi definida no arquivo "routes" com:
+O Play roteia requisições HTTP para o Controller usando as rotas definidas no arquivo `conf/routes`. O arquivo de rotas mapeia verbos HTTP e padrões de URL para os métodos do Controller. A rota que coincide à requisição que você acabou de fazer foi definida no arquivo "routes" com:
 
     GET     /                           controllers.Application.index()
 
@@ -192,7 +192,7 @@ O código do corpo do método `index()` é semelhante a este:
 Edite o arquivo `Application.java` e mude a string `Sua nova aplicação está pronta.` para `Olá, mundo!`. Salve o arquivo e recarregue a seguinte URL em seu navegador:
 [http://localhost:9000/](http://localhost:9000/)
 
-Notice que agora o cabeçalho no topo da página exibe a mensagem `Olá, mundo!`. O Play recompilou o controller Java em segundo plano. Se você tivesse feito alguma mudança que não pudesse ser compilada, veria um erro de compilação exibido no seu navegador e em seu console.
+Perceba que agora o cabeçalho no topo da página exibe a mensagem `Olá, mundo!`. O Play recompilou o controller Java em segundo plano. Se você tivesse feito alguma mudança que não pudesse ser compilada, veria um erro de compilação exibido no seu navegador e em seu console.
 
 Dê commit e verifique as mudanças:
 
@@ -263,7 +263,7 @@ Atualize uma View
 
 
 
-Play usa Scala para criar modelos do lado do servidor (server-side). O controller `Application` renderiza o template `views.html.index`, que é compilado do arquivo `app/views/index.scala.html`. O template `index` obtém um parâmetro String:
+O Play usa Scala para criar modelos no servidor (server-side). O controller `Application` renderiza o template `views.html.index`, que é compilado do arquivo `app/views/index.scala.html`. O template `index` obtém um parâmetro String:
 
     @(message: String)
 
@@ -396,7 +396,7 @@ Forneça uma nova aplicação no Heroku:
     heroku create --stack cedar
 
 
-Agora dê push e envie a aplicação ao Heroku:
+Agora sincronize e envie a aplicação ao Heroku:
 
     git push heroku master
 
@@ -412,7 +412,7 @@ Abra a aplicação, agora hospedada na nuvem, em seu navegador:
 Criar um Model
 --------------
 
-Play 2 com Java usa [Ebean](http://www.avaje.org/) para persistência RDBMS. Para configurar uma fonte de dados edite o arquivo `conf/application.conf`, descomentando as seguintes linhas:
+O Play 2 com Java usa [Ebean](http://www.avaje.org/) para persistência RDBMS. Para configurar uma fonte de dados edite o arquivo `conf/application.conf`, descomentando as seguintes linhas:
 
     db.default.driver=org.h2.Driver
     db.default.url="jdbc:h2:mem:play"
@@ -423,7 +423,7 @@ Play 2 com Java usa [Ebean](http://www.avaje.org/) para persistência RDBMS. Par
 Isto usará uma base de dados alocada em memória para uma fonte de dados chamada "default".
 
 
-Crie uma nova classe Java para armazenar objetos `Task` em um pacote chamdo `models`, criando um novo arquivo `app/models/Task.java` que contenha:
+Crie uma nova classe Java para armazenar objetos `Task` em um pacote chamado `models`, criando um novo arquivo `app/models/Task.java` que contenha:
 
     package models;
     
@@ -490,8 +490,7 @@ Dê commit e verifique as mudanças:
 Criar Interface de Usuário (UI) para adicionar tarefas
 ------------------------------------------------------
 
-Comece adicionando um novo método ao arquivo `app/controllers/Application.java`
-Start by adding a new method to the `app/controllers/Application.java` file that will map request parameters to a `Task` object, save it, and then redirect to the `index()` page.  First add these imports:
+Comece adicionando um novo método ao arquivo `app/controllers/Application.java` que mapeará os parâmetros de requisição para um objeto `Task`, salve-o e então redirecione para a página `index()`. Primeiro, adicione os seguintes imports:
 
     import models.Task;
     import play.data.Form;
@@ -574,7 +573,7 @@ Dê commit e verifique as mudanças:
 
 
 
-Exibir as Tasks via CoffeeScript e JQuery
+Exibir as Tasks via CoffeeScript e jQuery
 -----------------------------------------
 
 No corpo do arquivo `app/views/index.scala.html`, adicione um local para exibir as tasks no formulário:
@@ -582,7 +581,7 @@ No corpo do arquivo `app/views/index.scala.html`, adicione um local para exibir 
     <ul id="tasks"></ul>
 
 
-Crie um novo arquivo chamado `app/assets/javascripts/index.coffee` (e crie os diretórios necessários) contendo uma simples aplicação CoffeeScript que use JQuery para localizar e exibir as tasks:
+Crie um novo arquivo chamado `app/assets/javascripts/index.coffee` (e crie os diretórios necessários) contendo uma simples aplicação CoffeeScript que use jQuery para localizar e exibir as tasks:
 
     $ ->
       $.get "/tasks", (data) ->
@@ -624,7 +623,7 @@ Deixe a aplicação mais bonita com o Twitter Bootstrap
           )
 
 
-Agora reinicie o servidor do Play para que ele reconheça a nova dependência. Para usar o Twitter Bootstrap simplesmente adicione a seguinte linha no arquivo `app/views/main.scala.html`, certificando-se de que a linha esteja entre a linha da tag `<title>` e a linha `main.css`:
+Agora reinicie o servidor do Play para que ele reconheça a nova dependência. Para usar o Twitter Bootstrap simplesmente adicione a seguinte linha no arquivo `app/views/main.scala.html`, certificando-se de que essa linha esteja entre a linha da tag `<title>` e a linha `main.css`:
 
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
 
@@ -637,7 +636,7 @@ Adicione o seguinte código ao arquivo `public/stylesheets/main.css` para mover 
 
 
 
-Crie um novo componente de template que será usado para criar um novo campo de formulário do Bootstrap criando um novo arquivo chamado `app/views/twitterBootstrapInput.scala.html` contendo:
+Crie um novo componente de template que será usado para criar um novo campo de formulário do Bootstrap, criando um novo arquivo chamado `app/views/twitterBootstrapInput.scala.html` contendo:
 
     @(elements: helper.FieldElements)
     
@@ -650,7 +649,7 @@ Crie um novo componente de template que será usado para criar um novo campo de 
     </div>
 
 
-Atualize o arquivo `app/views/index.scala.html` para usar o cabeçalho, layout e fontes mais amigáveis do Bootstrap:
+Atualize o arquivo `app/views/index.scala.html` para usar o cabeçalho, layout e fontes amigáveis do Bootstrap:
 
     @(message: String, taskForm: Form[Task])
     @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
